@@ -1,5 +1,4 @@
-
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Return a list of ships that can hold a given number of passengers.
 """
