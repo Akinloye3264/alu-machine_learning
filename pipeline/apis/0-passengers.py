@@ -1,5 +1,6 @@
 
 #!/usr/bin/env python3
+
 """
 Return a list of ships that can hold a given number of passengers.
 """
@@ -9,7 +10,8 @@ import requests
 
 def availableShips(passengerCount):
     """Return ships with passenger capacity at least passengerCount."""
-    url = "https://swapi-api.alx-tools.com/api/starships/"
+ 
+ url = "https://swapi-api.alx-tools.com/api/starships/"
     ships = []
 
     while url:
@@ -29,4 +31,3 @@ def availableShips(passengerCount):
         url = data.get("next")
 
     return ships
-
