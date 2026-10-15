@@ -1,32 +1,32 @@
+
 #!/usr/bin/env python3
 """
-create a method that returns the list of ships
-that can hold a given number of passengers
+Return a list of ships that can hold a given number of passengers.
 """
 
 import requests
 
 
 def availableShips(passengerCount):
-        """Returns a list of ships"""
-            url = 'https://swapi-api.alx-tools.com/api/starships/'
+    """Return ships with passenger capacity at least passengerCount."""
+    url = "https://swapi-api.alx-tools.com/api/starships/"
+    ships = []
 
-                res = requests.get(url)
-                    output = []
+    while url:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
 
-                        while res.status_code == 200:
-                                    res = res.json()
-                                            for ship in res['results']:
-                                                            passengers = ship['passengers'].replace(',', '')
-                                                                        try:
-                                                                                            if int(passengers) >= passengerCount:
-                                                                                                                    output.append(ship['name'])
+        for ship in data["results"]:
+            passengers = ship["passengers"].replace(",", "")
 
-                                                                                                                                except ValueError:
-                                                                                                                                                    pass
-                                                                                                                                                        try:
-                                                                                                                                                                        res = requests.get(res['next'])
-                                                                                                                                                                                except Exception:
-                                                                                                                                                                                                break
+            try:
+                if int(passengers) >= passengerCount:
+                    ships.append(ship["name"])
+            except ValueError:
+                continue
 
-                                                                                                                                                                                                return output
+        url = data.get("next")
+
+    return ships
+
