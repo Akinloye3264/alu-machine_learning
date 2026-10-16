@@ -50,13 +50,11 @@ def get_upcoming_launch():
             launchpad_locality
         ))
 
-    except requests.RequestException as error:
-        print("An error occurred while making an API request: {}"
-              .format(error))
+    except requests.RequestException:
+        return
 
-    except (ValueError, KeyError, IndexError, TypeError) as error:
-        print("An error occurred while processing API data: {}"
-              .format(error))
+    except (ValueError, KeyError, IndexError, TypeError):
+        return
 
 
 if __name__ == "__main__":
