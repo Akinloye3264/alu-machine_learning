@@ -1,27 +1,34 @@
-#!/usr/bin/env python3
 
-"""Returns the list of names of the home planets of all sentient species"""
+# !/usr/bin/env python3
+"""Return home planet names of all sentient species."""
 
 import requests
 
 
 def sentientPlanets():
-        """ Return list of names of the home planets of all sentient species"""
+    """Return a list of home planets of sentient species."""
+    url = "https://swapi-api.alx-tools.com/api/species/"
+    planets = []
 
-            url = "https://swapi-api.alx-tools.com/api/species/?page=1"
-                planets = []
+    while url:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
 
-                    while url:
-                                response = requests.get(url).json()
+        for species in data["results"]:
+            classification = species["classification"]
+            designation = species["designation"]
 
-                                        for specy in response['results']:
-                                                        classification = specy['classification']
-                                                                    designation = specy['designation']
-                                                                                if classification == 'sentient' or designation == 'sentient':
-                                                                                                    if specy['homeworld']:
-                                                                                                                            get_planet = requests.get(specy['homeworld']).json()
-                                                                                                                                                planets.append(get_planet['name'])
+            if (classification == "sentient" or
+                    designation == "sentient"):
+                homeworld = species["homeworld"]
 
-                                                                                                                                                        url = response['next']
+                if homeworld:
+                    planet_response = requests.get(homeworld)
+                    planet_response.raise_for_status()
+                    planet = planet_response.json()
+                    planets.append(planet["name"])
 
-                                                                                                                                                            return planets
+        url = data["next"]
+
+    return planets
