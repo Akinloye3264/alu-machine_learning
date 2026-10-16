@@ -1,5 +1,4 @@
-
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 """Return home planet names of all sentient species."""
 
 import requests
